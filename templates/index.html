@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>asdasd</title>
+    <title>some_title</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-asdasdasd
 {% for dish in dishes %}
     <div class="">
-    <h1>Название блюда: {{ dish.title }}</h1>
-    <p>тип: {{ dish.dish_type }}</p>
-    <p>Описание: {{ dish.descriptions }}</p>
+        <h1>Название блюда: {{ dish.title }}</h1>
+        <p>тип: {{ dish.dish_type }}</p>
+        <p>Описание: {{ dish.descriptions }}</p>
     </div>
 {% endfor %}
+
 </body>
 </html>

@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils.translation import ugettext_lazy
 
 
 # Модель блюда со своими полями и методами
@@ -15,5 +14,5 @@ class Dish(models.Model):
 
     # Изменение заголовка модели в админке
     class Meta:
-        verbose_name = ugettext_lazy("Блюдо")
-        verbose_name_plural = ugettext_lazy("Блюда")
+        verbose_name = "Блюдо"
+        verbose_name_plural = "Блюда"
