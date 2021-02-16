@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import Dish
+from .models import Dish, Category
+
+admin.site.register(Category)
 
 
-# admin.site.register(Dish)
 # регистрация модели в админке
 @admin.register(Dish)
 class DishAdmin(admin.ModelAdmin):
     # список отображаемых полей модели
-    list_display = ['id', 'title', 'dish_type', 'description']
+    list_display = ['id', 'title','display_categories', 'description']
