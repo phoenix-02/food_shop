@@ -112,6 +112,5 @@ USE_TZ = True
 
 STATICFILES_DIRS = [BASE_DIR / 'static/']
 # STATICFILES_DIRS = [str(BASE_DIR) + '/static/'] если используется os
-
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
