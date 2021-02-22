@@ -1,5 +1,6 @@
-/*div{*/
-/*    background-color: red;*/
-/*}*/
-.dish_cart img:hover{
-width: 120px}
+.navbar + * {
+    margin-top: 56px;
+}
+.dish_cart img {
+    width: 120px
+}

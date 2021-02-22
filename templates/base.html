@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+{% block content %}
+{% include 'header.html' %}
+
+    {% for dish in dishes %}
+        <div class="dish_cart">
+            <h3>Название блюда: {{ dish.title }} </h3>
+            <img src="/static/img/{{ dish.image }}" alt="">
+            <p>
+                {% for category in dish.categories.all %}
+                    {{ category.title }},
+                {% endfor %}
+            </p>
+            <p>Описание: {{ dish.description }}</p>
+        </div>
+{% endfor %}
+{% endblock %}

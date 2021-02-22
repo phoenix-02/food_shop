@@ -8,4 +8,4 @@ admin.site.register(Category)
 @admin.register(Dish)
 class DishAdmin(admin.ModelAdmin):
     # список отображаемых полей модели
-    list_display = ['id', 'title','display_categories', 'description']
+    list_display = ['id', 'title', 'get_categories', 'description']

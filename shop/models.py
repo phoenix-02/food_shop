@@ -22,15 +22,16 @@ class Dish(models.Model):
     # CharField, IntegerField FloatField и другие- это поля модели
     image = models.CharField(max_length=500, verbose_name='Картинка', null=True)
     title = models.CharField(max_length=100, verbose_name='Название блюда', help_text='введите название блюда')
+    # связь многие ко многим позволяет связывать множество категорий с множеством товаров
     categories = models.ManyToManyField(Category, verbose_name='категория', )
     description = models.CharField(max_length=500, verbose_name='Описание')
+    # цена не может быть ниже 0, поэтому используется PositiveIntegerField
     price = models.PositiveIntegerField(verbose_name='цена')
 
+    # для корректного отображения категорий
     def get_categories(self):
+        self.short_description = "Категории"
         return [cat.title for cat in self.categories.all()]
-
-    get_categories.short_description = "Категории"
-    display_categories = property(get_categories)
 
     # возвращение дефолтного значения при обращении к обьекту
     def __str__(self):
