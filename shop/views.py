@@ -1,7 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from .models import Dish
-from .forms import SearchForm, LoginForm, RegisterForm
+from .forms import SearchForm, LoginForm, RegisterForm, EditForm
+from django.contrib.postgres.search import SearchVector
+from django.contrib.auth.models import User
 
 
 def add_dish(request):
@@ -17,14 +19,25 @@ def view_dishes(request):
 
     if request.method == 'POST':
         form = SearchForm(request.POST)
-        if form.is_valid():
-            search = request.POST.get('search')
-            all_dishes = all_dishes.filter(title=search)
+        search = request.POST.get('search')
+        if form.is_valid() and search:
+            all_dishes = all_dishes.filter(title__contains=search)
     else:
         form = SearchForm()
 
     return render(request, 'base.html',
-                  {'dishes': all_dishes, 'form': form,'user':request.user})
+                  {'dishes': all_dishes, 'form': form, 'user': request.user})
+
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+        form = EditForm(instance=request.user)
+    return render(request, 'login.html', {'form': form,'submit_text':'Изменить','auth_header':'Изменение профиля'})
 
 
 def log_in(request):
@@ -45,7 +58,7 @@ def log_in(request):
     else:
         form = LoginForm()
 
-    return render(request, 'login.html', {'form': form })
+    return render(request, 'login.html', {'form': form, 'submit_text': 'Войти', 'auth_header': 'Вход'})
 
 
 def register(request):
@@ -59,4 +72,10 @@ def register(request):
             return redirect('/')
     else:
         form = RegisterForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'login.html',
+                  {'form': form, 'submit_text': 'Зарегистрироваться', 'auth_header': 'Регистрация'})
+
+
+def log_out(request):
+    logout(request)
+    return redirect('/')

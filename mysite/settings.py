@@ -13,6 +13,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -33,6 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'api_shop',
     'shop',
 ]
 
@@ -55,6 +58,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.media',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -71,8 +75,13 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        # необходимо использовать ваши данные !!!
+        'NAME': 'food_shop',
+        'USER': 'mango',
+        'PASSWORD': '4481',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -114,3 +123,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static/']
 # STATICFILES_DIRS = [str(BASE_DIR) + '/static/'] если используется os
 STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+ADMIN_MEDIA_PREFIX = '/static/admin/'

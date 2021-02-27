@@ -1,6 +1,19 @@
 .navbar + * {
     margin-top: 56px;
 }
+
 .dish_cart img {
     width: 120px
+}
+
+body {
+    background: url("/static/img/table.jpg") no-repeat fixed;
+    background-size: cover;
+    transition: 3s;
+}
+@keyframes fadeout {
+    from{
+    }
+    to{
+    }
 }

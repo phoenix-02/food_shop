@@ -1,17 +1,21 @@
 {% extends 'index.html' %}
 {% block content %}
-{% include 'header.html' %}
-
-    {% for dish in dishes %}
-        <div class="dish_cart">
-            <h3>Название блюда: {{ dish.title }} </h3>
-            <img src="/static/img/{{ dish.image }}" alt="">
-            <p>
-                {% for category in dish.categories.all %}
-                    {{ category.title }},
-                {% endfor %}
-            </p>
-            <p>Описание: {{ dish.description }}</p>
-        </div>
-{% endfor %}
+    {% include 'header.html' %}
+    <div class="row justify-content-sm-start mx-0 ">
+        {% for dish in dishes %}
+            <div class="card offset-1 col-3 mt-4 p-2">
+                <img class="card-img w-100 h-100" src="{{ MEDIA_URL }}{{ dish.image }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ dish.title }}</h5>
+                    <p class="card-text">{{ dish.description }}</p>
+                    <a href="#" class="btn btn-primary">Перейти к блюду</a>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">коспания: {{ dish.company }}</li>
+                    <li class="list-group-item">цена: {{ dish.price }}</li>
+                    <li class="list-group-item">категории: {{ dish.get_categories }}</li>
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
