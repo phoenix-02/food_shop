@@ -1,27 +1,28 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Dish
+from .models import Dish, Category
 from .forms import SearchForm, LoginForm, RegisterForm, EditForm
 from django.contrib.postgres.search import SearchVector
-from django.contrib.auth.models import User
+from django.db.models import Q
 
 
-def add_dish(request):
-    some_dish = Dish(title='рамен2', image='img.jpg', price=500, )
-    some_dish.save()
-
-    Dish.objects.create(title='рамен', image=' ', price=500, )
-    return redirect('index')
-
-
-def view_dishes(request):
+def search_dishes(request):
     all_dishes = Dish.objects.all()
-
     if request.method == 'POST':
         form = SearchForm(request.POST)
         search = request.POST.get('search')
         if form.is_valid() and search:
-            all_dishes = all_dishes.filter(title__contains=search)
+            search_vector = SearchVector('title',
+                                         'description',
+                                         'categories__title',
+                                         'company__title', )
+            all_dishes = Dish.objects.annotate(search=search_vector).filter(search=search)
+            # альтернатива, без использования annotate и SearchVector
+            # all_dishes = Dish.objects.filter(
+            #     Q(title__icontains=search) |
+            #     Q(categories__title__icontains=search))
+
     else:
         form = SearchForm()
 
@@ -29,6 +30,13 @@ def view_dishes(request):
                   {'dishes': all_dishes, 'form': form, 'user': request.user})
 
 
+def view_category(request):
+    category_id = request.GET.get("category_id")
+    category = Category.objects.filter(id=category_id)
+    return render(request, 'category.html', {'category': category})
+
+
+@login_required
 def edit_profile(request):
     if request.method == 'POST':
         form = EditForm(request.POST, instance=request.user)
@@ -37,7 +45,7 @@ def edit_profile(request):
             return redirect('/')
     else:
         form = EditForm(instance=request.user)
-    return render(request, 'login.html', {'form': form,'submit_text':'Изменить','auth_header':'Изменение профиля'})
+    return render(request, 'login.html', {'form': form, 'submit_text': 'Изменить', 'auth_header': 'Изменение профиля'})
 
 
 def log_in(request):

@@ -3,11 +3,15 @@
 }
 
 .dish_cart img {
+
     width: 120px
+}
+.card-img:hover{
+    transform: scale(1.2,1.2);
 }
 
 body {
-    background: url("/static/img/table.jpg") no-repeat fixed;
+    background: url("/shop/statictatic/img/table.jpg") no-repeat fixed;
     background-size: cover;
     transition: 3s;
 }

@@ -20,6 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'x0m3cy5tr_g6&_9u0lsmfyxo+%)-%#pj=c2n4hk97hp2$9t%44'
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '163667447948-h8m9ftson86e05gltls7315vjuj6b8pm.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '8vRZtm-Cj07pc2Q9dVBl8k7A'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -37,6 +39,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'api_shop',
     'shop',
+    'social_django',
+
 ]
 
 MIDDLEWARE = [
@@ -46,7 +50,6 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -54,7 +57,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'shop/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,6 +66,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -78,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         # необходимо использовать ваши данные !!!
         'NAME': 'food_shop',
-        'USER': 'mango',
+        'USER': 'postgres',
         'PASSWORD': '4481',
         'HOST': 'localhost',
         'PORT': '',
@@ -87,6 +92,10 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -116,18 +125,22 @@ USE_L10N = True
 
 USE_TZ = True
 
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+LOGIN_URL = 'login/google-oauth2/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATICFILES_DIRS = [BASE_DIR / 'static/']
+STATICFILES_DIRS = [BASE_DIR / 'shop/static/']
 # STATICFILES_DIRS = [str(BASE_DIR) + '/static/'] если используется os
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = '/shop/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / 'shop/media'
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'

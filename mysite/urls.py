@@ -8,6 +8,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # вставляем пути из приложения shop в основной список путей
     path('', include('shop.urls')),
+    path('', include('social_django.urls', namespace='social'))
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

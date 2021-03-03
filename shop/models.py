@@ -27,7 +27,7 @@ class Category(models.Model):
 # Модель блюда со своими полями и методами
 class Dish(models.Model):
     # CharField, IntegerField FloatField и другие- это поля модели
-    image = models.ImageField(upload_to='images/', blank=True, verbose_name='Картинка')
+    image = models.ImageField(upload_to='images/', null=True, verbose_name='Картинка', max_length=900)
     title = models.CharField(max_length=100, verbose_name='Название блюда', help_text='введите название блюда')
     # связь многие ко многим позволяет связывать множество категорий с множеством товаров
     categories = models.ManyToManyField(Category, verbose_name='категория', )
@@ -38,8 +38,8 @@ class Dish(models.Model):
 
     # для корректного отображения категорий
     def get_categories(self):
-        self.short_description = "Категории"
         return ', '.join([cat.title for cat in self.categories.all()])
+    get_categories.short_description = "Категории"
 
     # возвращение дефолтного значения при обращении к обьекту
     def __str__(self):

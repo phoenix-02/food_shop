@@ -4,7 +4,7 @@
     <div class="row justify-content-sm-start mx-0 ">
         {% for dish in dishes %}
             <div class="card offset-1 col-3 mt-4 p-2">
-                <img class="card-img w-100 h-100" src="{{ MEDIA_URL }}{{ dish.image }}" alt="Card image cap">
+                <img class="card-img w-100 h-100 bg-warning" src="{{ MEDIA_URL }}{{ dish.image }}" alt="картинки нет">
                 <div class="card-body">
                     <h5 class="card-title">{{ dish.title }}</h5>
                     <p class="card-text">{{ dish.description }}</p>
