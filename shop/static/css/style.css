@@ -11,7 +11,7 @@
 }
 
 body {
-    background: url("/shop/statictatic/img/table.jpg") no-repeat fixed;
+    background: url("/static/img/table.jpg") no-repeat fixed;
     background-size: cover;
     transition: 3s;
 }
