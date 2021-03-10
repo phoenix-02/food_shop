@@ -134,13 +134,13 @@ LOGOUT_REDIRECT_URL = '/'
 
 STATICFILES_DIRS = [BASE_DIR / 'shop/static/']
 # STATICFILES_DIRS = [str(BASE_DIR) + '/static/'] если используется os
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATIC_ROOT = '/shop/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'shop/media'
 
-ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = 'static/admin/'
