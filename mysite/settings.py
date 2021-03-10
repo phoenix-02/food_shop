@@ -135,7 +135,7 @@ LOGOUT_REDIRECT_URL = '/'
 STATICFILES_DIRS = [BASE_DIR / 'shop/static/']
 # STATICFILES_DIRS = [str(BASE_DIR) + '/static/'] если используется os
 STATIC_URL = 'static/'
-STATIC_ROOT = '/shop/static/'
+STATIC_ROOT = BASE_DIR / '/shop/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
