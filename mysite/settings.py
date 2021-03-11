@@ -26,7 +26,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '8vRZtm-Cj07pc2Q9dVBl8k7A'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -53,7 +53,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -134,17 +133,18 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STATICFILES_DIRS = [BASE_DIR / 'shop/static/']
 # STATICFILES_DIRS = [str(BASE_DIR) + '/static/'] если используется os
 STATIC_URL = 'static/'
-STATIC_ROOT = Path.joinpath(BASE_DIR / '/shop/static/')
+STATIC_ROOT = BASE_DIR / 'shop/static/'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 MEDIA_URL = 'media/'
-MEDIA_ROOT = Path.joinpath(BASE_DIR / 'shop/media')
+MEDIA_ROOT = BASE_DIR / 'shop/media'
 
 ADMIN_MEDIA_PREFIX = 'static/admin/'
 django_heroku.settings(locals())
