@@ -1,5 +1,7 @@
 .idea
 venv
-db.sqlite3
 migrations
 staticfiles
+/db.json
+/dump.json
+/shop/media/
