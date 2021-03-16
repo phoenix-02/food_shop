@@ -1,4 +1,7 @@
-{% extends 'index.html' %}
+{% extends index %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 {% block content %}
     {% include 'header.html' %}
     <div class="row justify-content-sm-start mx-0 ">
