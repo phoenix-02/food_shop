@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api.rest_shop',
+    'graphene_django',
     'api.graphql_shop',
     'shop',
     'social_django',
-    'graphene_django',
 ]
 
 MIDDLEWARE = [

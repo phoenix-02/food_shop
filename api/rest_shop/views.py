@@ -1,10 +1,8 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from api.rest_shop.serializers import UserSerializer, GroupSerializer
-from rest_framework.parsers import JSONParser
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from shop.models import Dish, Company, Cart
+from api.rest_shop.serializers import UserSerializer, GroupSerializer,DishSerializer, CompanySerializer,CartSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -13,7 +11,22 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+
+
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+
+class DishViewSet(viewsets.ModelViewSet):
+    queryset = Dish.objects.all()
+    serializer_class = DishSerializer
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -22,14 +35,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser]
 
 
-class ExampleView(APIView):
-    """
-    A view that can accept POST requests with JSON content.
-    """
-    parser_classes = [JSONParser]
-
-    def post(self, request, format=None):
-        return Response({'received data': request.data})
