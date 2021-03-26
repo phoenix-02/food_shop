@@ -1,9 +1,27 @@
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
+from django.contrib.auth.models import User
 from rest_framework import permissions
-from shop.models import Dish, Company, Cart
-from api.rest_shop.serializers import UserSerializer, GroupSerializer, DishSerializer, CompanySerializer, CartSerializer
+from api.rest_shop.license import IsOwnerProfileOrReadOnly
+from rest_framework import viewsets
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from api.rest_shop.serializers import UserSerializer, UserProfileSerializer, DishSerializer, CompanySerializer, \
+    CartSerializer
+from shop.models import UserProfile, Dish, Company, Cart
+from rest_framework import generics
 
+class UserProfileListCreateView(ListCreateAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user=user)
+
+
+class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
+    permission_classes = [IsOwnerProfileOrReadOnly, permissions.IsAuthenticated]
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -28,12 +46,3 @@ class DishViewSet(viewsets.ModelViewSet):
     queryset = Dish.objects.all()
     serializer_class = DishSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
-
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAdminUser]

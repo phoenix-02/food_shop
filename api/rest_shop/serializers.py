@@ -1,7 +1,14 @@
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from rest_framework import serializers
+from shop.models import Dish, Company, Cart, CartContent, UserProfile
 
-from shop.models import Dish, Company, Cart, CartContent, Category
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField(read_only=True)
+
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -9,7 +16,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['url', 'id', 'title']
+        fields = ['id', 'title']
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -23,7 +30,6 @@ class CategorySerializer(serializers.ModelSerializer):
 class DishSerializer(serializers.ModelSerializer):
     # categories = CategorySerializer(many=True)
     # company = CompanySerializer(required=False)
-    depth = 2
 
     class Meta:
         model = Dish
@@ -49,7 +55,7 @@ class DishSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'username', 'email', 'groups']
+        fields = ['username', 'email', 'groups']
 
 
 class CartContentSerializer(serializers.ModelSerializer):
@@ -63,14 +69,8 @@ class CartContentSerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     user = UserSerializer
     cart_content = CartContentSerializer(source='get_cart_content', many=True)
-    depth = 1
 
     class Meta:
         model = Cart
         fields = ('id', 'user', 'cart_content')
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Group
-        fields = ['url', 'name']
+        depth = 1

@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    description = models.TextField(blank=True, null=True)
+    # avatar
+    def __str__(self):
+        return self.user.username
+
+
 class Company(models.Model):
     title = models.CharField(max_length=250)
 
@@ -40,6 +48,7 @@ class Dish(models.Model):
     # для корректного отображения категорий
     def get_categories(self):
         return ', '.join([cat.title for cat in self.categories.all()])
+
     get_categories.short_description = "Категории"
 
     # возвращение дефолтного значения при обращении к обьекту

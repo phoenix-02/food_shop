@@ -1,7 +1,5 @@
 from django.urls import path
 from shop import views
-from django.conf import settings
-from django.contrib.auth import logout
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name="index"),
