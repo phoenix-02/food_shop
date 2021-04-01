@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import RedirectView
@@ -17,7 +18,8 @@ urlpatterns = [
                   path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
                   path('favicon.ico', RedirectView.as_view(url='/static/img/favicon.ico')),
                   # media connecting
-              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
+    staticfiles_urlpatterns()
 # debug toolbar
 if settings.DEBUG:
     # by default type is text-plain, thus browser reject working with

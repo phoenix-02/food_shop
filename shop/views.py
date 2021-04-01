@@ -1,11 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.postgres.search import SearchVector
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Dish, Category, Cart, CartContent
-from .forms import SearchForm, LoginForm, RegisterForm, EditForm
-from django.contrib.postgres.search import SearchVector
+
+from .forms import SearchForm, LoginForm, RegisterForm, EditForm, EditProfileForm
+from .models import Dish, Category, Cart, CartContent, UserProfile
 
 
 class MasterView(View):
@@ -50,9 +51,12 @@ class HomeView(MasterView):
     all_dishes = Dish.objects.all()
 
     def get(self, request):
+        profile = None
+        if request.user.is_authenticated:
+            profile = UserProfile.objects.filter(user=request.user).first()
         form = SearchForm()
         return render(request, 'base.html',
-                      {'dishes': self.all_dishes, 'form': form})
+                      {'dishes': self.all_dishes, 'form': form, 'profile': profile})
 
     def post(self, request):
         form = SearchForm(request.POST)
@@ -73,6 +77,12 @@ def view_category(request):
     category_id = request.GET.get("category_id")
     category = Category.objects.filter(id=category_id)
     return render(request, 'category.html', {'category': category})
+
+
+def view_profile(request):
+    profile = UserProfile.objects.get(user=request.user)
+    form = EditProfileForm()
+    return render(request, 'profile.html', {'profile': profile, 'form': form})
 
 
 @login_required
