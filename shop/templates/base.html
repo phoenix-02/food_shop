@@ -1,13 +1,12 @@
 {% extends 'index.html' %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-
 {% block content %}
     {% include 'header.html' %}
-    <div class="row justify-content-sm-start mx-0 ">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <div id="all_dishes" class="row justify-content-sm-start mx-0">
         {% for dish in dishes %}
-            <div class="card offset-1 col-3 mt-4 p-2" id="dish-{{ dish.id }}">
-                <img class="card-img w-100 h-100 bg-warning" src="{{ MEDIA_URL }}{{ dish.image }}" alt="картинки нет">
+            <div class="card col" id="dish-{{ dish.id }}">
+                <img src="{{ dish.image_cropped.url }}" alt="">
                 <div class="card-body">
                     <h5 class="card-title">{{ dish.title }}</h5>
                     <p class="card-text">{{ dish.description }}</p>
@@ -21,12 +20,13 @@
                 <form action="/cart/" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="dish_id" value="{{ dish.id }}">
-                    <label>
-                        <input type="number" name="qty" value="{{ dish.id }}">
+                    <label >
+                        <input max="999" class="dish_qty" type="number" name="qty" value="{{ dish.id }}">
                     </label>
                     <button type="submit">Добавить в корзину</button>
                 </form>
             </div>
         {% endfor %}
+
     </div>
 {% endblock %}

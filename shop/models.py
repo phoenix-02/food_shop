@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator
 from django.db import models
+from imagekit.models.fields import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 
 class UserProfile(models.Model):
@@ -37,7 +40,9 @@ class Category(models.Model):
 # Модель блюда со своими полями и методами
 class Dish(models.Model):
     # CharField, IntegerField FloatField и другие- это поля модели
-    image = models.ImageField(upload_to='images/', null=True, verbose_name='Картинка', max_length=900)
+    image = models.ImageField(upload_to='images/', blank=True, verbose_name='Картинка', max_length=900,
+                              default='images/no_image.jpg')
+    image_cropped = ImageSpecField([ResizeToFill(220, 170)], source='image', format='JPEG')
     title = models.CharField(max_length=100, verbose_name='Название блюда', help_text='введите название блюда')
     # связь многие ко многим позволяет связывать множество категорий с множеством товаров
     categories = models.ManyToManyField(Category, verbose_name='категория', )
@@ -61,6 +66,19 @@ class Dish(models.Model):
         verbose_name = "Блюдо"
         verbose_name_plural = "Блюда"
 
+
+class Kit(models.Model):
+    total_before = models.PositiveIntegerField(null=True)
+    total_after = models.PositiveIntegerField(null=True)
+    percent = models.PositiveIntegerField(null=True, validators=[MaxValueValidator(99)])
+    items = models.ManyToManyField(Dish)
+
+    def __str__(self):
+        return str(self.id)
+
+    # def save(self, *args, **kwargs):
+    #
+    #     super(Kit, self).save(*args, **kwargs)
 
 class Cart(models.Model):
     session_key = models.CharField(max_length=999, blank=True, default='')

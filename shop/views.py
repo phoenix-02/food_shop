@@ -5,8 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.views import View
 
-from .forms import SearchForm, LoginForm, RegisterForm, EditForm, EditProfileForm
-from .models import Dish, Category, Cart, CartContent, UserProfile
+from shop.forms import SearchForm, LoginForm, RegisterForm, EditForm
+from shop.models import Dish, Category, Cart, CartContent, UserProfile
 
 
 class MasterView(View):
@@ -69,8 +69,10 @@ class HomeView(MasterView):
             self.all_dishes = self.all_dishes.annotate(search=search_vector).filter(search=search)
         else:
             form = SearchForm()
+        dish = Dish.objects.get(id=21)
+
         return render(request, 'base.html',
-                      {'dishes': self.all_dishes, 'form': form, 'user': request.user})
+                      {'dishes': self.all_dishes, 'form': form, 'user': request.user, 'dish2': dish.title})
 
 
 def view_category(request):

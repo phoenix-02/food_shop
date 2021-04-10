@@ -2,9 +2,22 @@
     margin-top: 56px;
 }
 
-.dish_cart img {
+#all_dishes {
+    padding-top: 50px;
+}
 
-    width: 120px
+#all_dishes .card {
+    padding-top: 10px;
+    max-width:250px;
+    margin:20px 20px;
+}
+#all_dishes .card .card-img{
+    width: 100%;
+    height: 170px;
+}
+
+#all_dishes .dish_qty {
+    width: 50px;
 }
 
 .card-img:hover {
