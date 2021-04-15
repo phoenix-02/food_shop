@@ -28,10 +28,10 @@ class TestCategory(TestCase):
             'title': 'test_title',
         }
         category = Category.objects.create(**payload)
-        category.name = new_title
+        category.title = new_title
         category.save()
         category.refresh_from_db()
-        self.assertEqual(category.name, new_title)
+        self.assertEqual(category.title, new_title)
 
     """
     Testing model deleting function.
