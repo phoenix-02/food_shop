@@ -22,7 +22,7 @@ class TestCategory(TestCase):
     Testing model updating function.
     """
 
-    def test_update_category(self):
+    def test_update_category_success(self):
         new_title = 'new test title'
         payload = {
             'title': 'test_title',
@@ -32,6 +32,18 @@ class TestCategory(TestCase):
         category.save()
         category.refresh_from_db()
         self.assertEqual(category.title, new_title)
+
+    def test_update_category_fail(self):
+        new_title = 'new test title'
+        payload = {
+            'title': 'test_title',
+        }
+        category = Category.objects.create(**payload)
+        category.title = 1
+        category.save()
+        category_from_db = Category.objects.get(id=category.id)
+        print(category.__dict__)
+        self.assertNotEqual(category.__dict__, category_from_db.__dict__)
 
     """
     Testing model deleting function.
@@ -46,3 +58,15 @@ class TestCategory(TestCase):
         category.delete()
         with self.assertRaises(Category.DoesNotExist):
             category = Category.objects.get(pk=pk)
+
+
+class TestDish(TestCase):
+    def test_create_dish_success(self):
+        payload = {
+            'title': 'mi note 10',
+            'description': '',
+            'category': 1,
+            'company': 1,
+            'image': ''
+
+        }

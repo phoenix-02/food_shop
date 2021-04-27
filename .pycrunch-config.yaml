@@ -1,0 +1,13 @@
+
+# documentation https://pycrunch.com/docs/configuration-file
+discovery:
+  exclusions:
+    - venv/
+    - migrations/
+    - staticfiles/
+engine:
+    runtime: django
+env:
+    DJANGO_SETTINGS_MODULE: config.settings
+    DJANGO_ALLOW_ASYNC_UNSAFE: "true"
+    DB_HOST: 127.0.0.1:5432

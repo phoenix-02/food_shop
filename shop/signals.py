@@ -8,13 +8,13 @@ from shop.models import UserProfile
 
 
 @receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
+def create_profile(instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
 
-def create_kit(instance, **kwargs):
-    if kwargs["action"] == 'post_add':
+def create_kit(instance, action, **kwargs):
+    if action == 'post_add':
         if instance.items.count() < 2:
             raise ValidationError(f'You cant assign less than two regions, now {instance.items.count()}')
     total = 0
