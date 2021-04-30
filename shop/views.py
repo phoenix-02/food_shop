@@ -4,9 +4,15 @@ from django.contrib.postgres.search import SearchVector
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.views import View
-
+from django.views.generic import ListView
+from django.core.paginator import Paginator
 from shop.forms import SearchForm, LoginForm, RegisterForm, EditForm
 from shop.models import Dish, Category, Cart, CartContent, UserProfile
+
+
+class DishListView(ListView):
+    paginate_by = 2
+    model = Dish
 
 
 class MasterView(View):
@@ -51,12 +57,21 @@ class HomeView(MasterView):
     all_dishes = Dish.objects.all()
 
     def get(self, request):
+        paginator = Paginator(self.all_dishes, 2)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        index = paginator.page_range.index(page_obj.number)
+        max_index = len(paginator.page_range)
+        start_index = index - 3 if index >= 3 else 0
+        end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = paginator.page_range[start_index:end_index]
+
         profile = None
         if request.user.is_authenticated:
             profile = UserProfile.objects.filter(user=request.user).first()
         form = SearchForm()
         return render(request, 'base.html',
-                      {'dishes': self.all_dishes, 'form': form, 'profile': profile})
+                      {'dishes': page_obj,'page_range':page_range, 'form': form, 'profile': profile})
 
     def post(self, request):
         form = SearchForm(request.POST)

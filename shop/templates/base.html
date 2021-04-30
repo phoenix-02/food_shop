@@ -20,7 +20,7 @@
                 <form action="/cart/" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="dish_id" value="{{ dish.id }}">
-                    <label >
+                    <label>
                         <input max="999" class="dish_qty" type="number" name="qty" value="{{ dish.id }}">
                     </label>
                     <button type="submit">Добавить в корзину</button>
@@ -29,4 +29,25 @@
         {% endfor %}
 
     </div>
+    <div class="prev_next">
+        {% if dishes.has_previous %}
+            <a class="prev btn btn-info" href="?page={{ dishes.previous_page_number }}">Prev</a>
+        {% endif %}
+        {% if dishes.has_next %}
+            <a class="next btn btn-info" href="?page={{ dishes.next_page_number }}">Next</a>
+        {% endif %}
+        <div class="pages">
+            <ul>
+                {% for pg in page_range %}
+                    {% if dishes.number == pg %}
+                        <a href="?page={{ pg }}" class="btn btn-default">{{ pg }}</a>
+                    {% else %}
+                        <a href="?page={{ pg }}" class="btn">{{ pg }}</a>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <span class="clear_both"></span>
+    </div>
+
 {% endblock %}
