@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+
 from shop.models import Dish, Company, Cart, CartContent, UserProfile
 
 
@@ -12,19 +13,17 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
-
     class Meta:
         model = Company
-        fields = ['id', 'title']
+        fields = '__all__'
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
-
     class Meta:
         model = Company
-        fields = ['id', 'title']
+    fields = '__all__'
+
+
 
 
 class DishSerializer(serializers.ModelSerializer):

@@ -3,7 +3,7 @@ from rest_framework import routers
 from api.rest_shop import views
 
 router = routers.DefaultRouter()
-router.register(r'companies', views.CompanyViewSet)
+router.register(r'companies', views.CompanyViewSet, basename='comp')
 router.register(r'carts', views.CartViewSet)
 router.register(r'dishes', views.DishViewSet)
 
